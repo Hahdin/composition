@@ -61,9 +61,7 @@ export default {
       return `${selection.name} :  $${selection.price}`;
     }
     const updateList = (action) => {
-      let list = state.selectedData.map(data => {
-        return `[${data.name} : $${data.price}]`;
-      });
+      const list = state.selectedData.map(data => `[${data.name} : $${data.price}]`);
       const newItem = `${action}: selected ${list}  @ ${new Date().toString()} `;
       state.history.push(newItem);
     }

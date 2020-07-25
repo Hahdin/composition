@@ -87,9 +87,7 @@ export default {
       this.history.push(`removing "${value.name}"`);
     },
     updateList(action) {
-      let list = this.selectedData.map(data => {
-        return `[${data.name} : $${data.price}]`;
-      });
+      const list = state.selectedData.map(data => `[${data.name} : $${data.price}]`);
       const newItem = `${action}: selected ${list}  @ ${new Date().toString()} `;
       this.history.push(newItem);
     }
