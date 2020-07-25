@@ -27,11 +27,9 @@
   </div>
 </template>
 <script>
-import { ref, reactive } from "@vue/composition-api";
-import { onMounted, onUpdated, onUnmounted } from '@vue/composition-api'
+import { onMounted, reactive } from "@vue/composition-api";
 import $ from "jquery";
 import "vue-multiselect/dist/vue-multiselect.min.css";
-import _ from "lodash";
 import Multiselect from "vue-multiselect";
 
 export default {
