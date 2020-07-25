@@ -30,6 +30,7 @@
 import { onMounted, reactive } from "@vue/composition-api";
 import $ from "jquery";
 import "vue-multiselect/dist/vue-multiselect.min.css";
+import _ from "lodash";
 import Multiselect from "vue-multiselect";
 
 export default {
@@ -49,49 +50,11 @@ export default {
       loadSelections();
     })
 
-    const updateData = () => {
-      updateList("update");
-    }
+    const { api } = useApi(state);
 
-    const removeData = (value, id) => {
-      state.history.push(`removing "${value.name}"`);
-    }
+    const { updateData, removeData, updateList } = useDataFunctions(state);
 
-    const customLabel = (selection) => {
-      return `${selection.name} :  $${selection.price}`;
-    }
-    const updateList = (action) => {
-      const list = state.selectedData.map(data => `[${data.name} : $${data.price}]`);
-      const newItem = `${action}: selected ${list}  @ ${new Date().toString()} `;
-      state.history.push(newItem);
-    }
-
-    const loadSelections = async () => {
-      state.selections = await api('/api/get-options', 'GET');
-    }
-
-    const api = (url, type) => {
-      return new Promise((resolve, reject) => {
-        state.loading = true;
-        const req = $.ajax({
-          url,
-          type,
-        });
-
-        req.done((data) => {
-          resolve(data);
-        });
-
-        req.fail((error) => {
-          console.log(error);
-          reject(error);
-        });
-
-        req.always(() => {
-          state.loading = false;
-        });
-      });
-    }
+    const { customLabel, loadSelections } = useSelections(state, api);
 
     return {
       state,
@@ -104,4 +67,66 @@ export default {
     }
   }
 };
+
+const useDataFunctions = (state) => {
+  const updateData = () => {
+    updateList("update");
+  }
+  const removeData = (value, id) => {
+    state.history.push(`removing "${value.name}"`);
+  }
+  const updateList = (action) => {
+    const list = state.selectedData.map(data => `[${data.name} : $${data.price}]`);
+    const newItem = `${action}: selected ${list}  @ ${new Date().toString()} `;
+    state.history.push(newItem);
+  }
+  return {
+    updateData,
+    removeData,
+    updateList,
+  }
+
+}
+
+const useSelections = (state, api) => {
+  const customLabel = (selection) => {
+    return `${selection.name} :  $${selection.price}`;
+  }
+  const loadSelections = async () => {
+    state.selections = await api('/api/get-options', 'GET');
+  }
+  return {
+    customLabel,
+    loadSelections,
+  }
+}
+
+const useApi = (state) => {
+  const api = (url, type) => {
+    return new Promise((resolve, reject) => {
+      state.loading = true;
+      const req = $.ajax({
+        url,
+        type,
+      });
+
+      req.done((data) => {
+        resolve(data);
+      });
+
+      req.fail((error) => {
+        console.log(error);
+        reject(error);
+      });
+
+      req.always(() => {
+        state.loading = false;
+      });
+    });
+  }
+  return {
+    api,
+  }
+}
+
 </script>
