@@ -27,10 +27,9 @@
   </div>
 </template>
 <script>
+import { useApi } from './utils/api.js';
 import { onMounted, reactive } from "@vue/composition-api";
-import $ from "jquery";
 import "vue-multiselect/dist/vue-multiselect.min.css";
-import _ from "lodash";
 import Multiselect from "vue-multiselect";
 
 export default {
@@ -65,6 +64,9 @@ export default {
   }
 };
 
+/**
+ * Data functions
+ */
 const useDataFunctions = (state) => {
   const updateData = () => {
     updateList("update");
@@ -81,8 +83,12 @@ const useDataFunctions = (state) => {
     updateData,
     removeData,
   }
+
 }
 
+/**
+ * Selection functions
+ */
 const useSelections = (state, api) => {
   const customLabel = (selection) => {
     return `${selection.name} :  $${selection.price}`;
@@ -93,34 +99,6 @@ const useSelections = (state, api) => {
   return {
     customLabel,
     loadSelections,
-  }
-}
-
-const useApi = (state) => {
-  const api = (url, type) => {
-    return new Promise((resolve, reject) => {
-      state.loading = true;
-      const req = $.ajax({
-        url,
-        type,
-      });
-
-      req.done((data) => {
-        resolve(data);
-      });
-
-      req.fail((error) => {
-        console.log(error);
-        reject(error);
-      });
-
-      req.always(() => {
-        state.loading = false;
-      });
-    });
-  }
-  return {
-    api,
   }
 }
 
