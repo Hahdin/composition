@@ -61,9 +61,6 @@ export default {
       updateData,
       removeData,
       customLabel,
-      updateList,
-      loadSelections,
-      api,
     }
   }
 };
