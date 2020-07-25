@@ -52,7 +52,7 @@ export default {
 
     const { api } = useApi(state);
 
-    const { updateData, removeData, updateList } = useDataFunctions(state);
+    const { updateData, removeData } = useDataFunctions(state);
 
     const { customLabel, loadSelections } = useSelections(state, api);
 
@@ -80,9 +80,7 @@ const useDataFunctions = (state) => {
   return {
     updateData,
     removeData,
-    updateList,
   }
-
 }
 
 const useSelections = (state, api) => {
