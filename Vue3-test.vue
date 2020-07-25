@@ -27,7 +27,7 @@
   </div>
 </template>
 <script>
-import { useApi } from './utils/api.js'; // API in utils for reuse
+import { useApi } from './utils/api.js';
 import { onMounted, reactive } from "@vue/composition-api";
 import "vue-multiselect/dist/vue-multiselect.min.css";
 import Multiselect from "vue-multiselect";
@@ -49,24 +49,12 @@ export default {
       loadSelections();
     })
 
-    /**
-     * Load the api
-     */
     const { api } = useApi(state);
 
-    /**
-     * Load the data functions
-     */
     const { updateData, removeData } = useDataFunctions(state);
 
-    /**
-     * Load the selection functions
-     */
     const { customLabel, loadSelections } = useSelections(state, api);
 
-    /**
-     * Return required interface
-     */
     return {
       state,
       updateData,
@@ -81,15 +69,12 @@ export default {
  */
 const useDataFunctions = (state) => {
   const updateData = () => {
-    updateList("update");
+    const list = state.selectedData.map(data => `[${data.name} : $${data.price}]`);
+    const newItem = `update: selected ${list}  @ ${new Date().toString()} `;
+    state.history.push(newItem);
   }
   const removeData = (value, id) => {
     state.history.push(`removing "${value.name}"`);
-  }
-  const updateList = (action) => {
-    const list = state.selectedData.map(data => `[${data.name} : $${data.price}]`);
-    const newItem = `${action}: selected ${list}  @ ${new Date().toString()} `;
-    state.history.push(newItem);
   }
   return {
     updateData,
