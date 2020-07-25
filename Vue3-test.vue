@@ -66,12 +66,8 @@ export default {
       state.history.push(newItem);
     }
 
-    const loadSelections = () => {
-      api('/api/get-options', 'GET')
-      .then((data) => {
-        state.selections = data;
-      });
-
+    const loadSelections = async () => {
+      state.selections = await api('/api/get-options', 'GET');
     }
 
     const api = (url, type, data = null) => {
