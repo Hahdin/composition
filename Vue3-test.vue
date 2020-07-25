@@ -27,7 +27,7 @@
   </div>
 </template>
 <script>
-import { useApi } from './utils/api.js';
+import { useApi } from './utils/api.js'; // API in utils for reuse
 import { onMounted, reactive } from "@vue/composition-api";
 import "vue-multiselect/dist/vue-multiselect.min.css";
 import Multiselect from "vue-multiselect";
@@ -49,12 +49,24 @@ export default {
       loadSelections();
     })
 
+    /**
+     * Load the api
+     */
     const { api } = useApi(state);
 
+    /**
+     * Load the data functions
+     */
     const { updateData, removeData } = useDataFunctions(state);
 
+    /**
+     * Load the selection functions
+     */
     const { customLabel, loadSelections } = useSelections(state, api);
 
+    /**
+     * Return required interface
+     */
     return {
       state,
       updateData,
