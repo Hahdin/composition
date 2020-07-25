@@ -70,7 +70,7 @@ export default {
       state.selections = await api('/api/get-options', 'GET');
     }
 
-    const api = (url, type, data = null) => {
+    const api = (url, type) => {
       return new Promise((resolve, reject) => {
         state.loading = true;
         const req = $.ajax({

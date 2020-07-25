@@ -55,7 +55,7 @@ export default {
       });
 
     },
-    api(url, type, data = null) {
+    api(url, type) {
       return new Promise((resolve, reject) => {
         this.loading = true;
         const req = $.ajax({
