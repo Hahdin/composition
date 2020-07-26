@@ -1,7 +1,14 @@
 
 import $ from "jquery";
 
-export const useApi = (state) => {
+export /**
+ * @param {{ loading: boolean; }} state
+ */
+ const useApi = (state) => {
+  /**
+   * @param {any} url
+   * @param {any} type
+   */
   const api = (url, type) => {
     return new Promise((resolve, reject) => {
       state.loading = true;
